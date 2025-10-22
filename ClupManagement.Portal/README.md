@@ -1,16 +1,89 @@
-# React + Vite
+# Üniversite Kulüp Yönetim Sistemi (University Club Management System)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu proje, üniversite kulüplerinin yönetimini kolaylaştırmak için geliştirilmiş web tabanlı bir yönetim sistemidir. Sistem, kulüp aktivitelerinin planlanması, üye yönetimi, etkinlik organizasyonu ve duyuru yönetimi gibi temel işlevleri sağlar.
 
-Currently, two official plugins are available:
+## Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   Kulüp üye yönetimi
+-   Etkinlik planlama ve takibi
+-   Duyuru yönetimi
+-   Kulüp bütçe takibi
+-   Etkinlik katılım kontrolü
+-   Yönetici ve üye panelleri
 
-## React Compiler
+## Teknolojiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   React.js
+-   Vite
+-   Node.js
+-   Modern CSS
 
-## Expanding the ESLint configuration
+## Kurulum
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Projeyi yerel ortamınıza kurmak için aşağıdaki adımları izleyin:
+
+1. Projeyi klonlayın:
+
+```bash
+git clone https://github.com/ucsilahsorler55/ClupManagement.Portal.git
+```
+
+2. Proje dizinine gidin:
+
+```bash
+cd ClupManagement.Portal
+```
+
+3. Gerekli bağımlılıkları yükleyin:
+
+```bash
+npm install
+```
+
+4. Geliştirme sunucusunu başlatın:
+
+```bash
+npm run dev
+```
+
+## Yapılandırma
+
+1. `.env` dosyasını oluşturun ve gerekli ortam değişkenlerini ayarlayın:
+
+```env
+VITE_API_URL=your_api_url
+```
+
+2. API bağlantı ayarlarını `src/services` dizinindeki ilgili dosyalarda güncelleyin.
+
+## Dağıtım (Deployment)
+
+Projeyi canlı ortama dağıtmak için:
+
+1. Üretim sürümünü oluşturun:
+
+```bash
+npm run build
+```
+
+2. `dist` klasöründe oluşturulan dosyaları web sunucunuza yükleyin.
+
+3. Web sunucunuzu yapılandırın (Apache/Nginx) ve gerekli yönlendirmeleri ayarlayın.
+
+## Geliştirme
+
+-   Yeni özellik geliştirirken lütfen branch oluşturun
+-   Kod stiline uygun geliştirme yapın
+-   Değişikliklerinizi commit etmeden önce test edin
+
+## Lisans
+
+Bu proje [MIT lisansı](LICENSE) altında lisanslanmıştır.
+
+## İletişim
+
+Sorularınız ve önerileriniz için issue açabilir veya pull request gönderebilirsiniz.
+
+---
+
+Developed with ❤️ for University Clubs
