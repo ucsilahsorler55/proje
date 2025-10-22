@@ -1,5 +1,6 @@
 import { Card, Button, Table, Layout } from "antd";
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 
 const { Header, Content } = Layout;
 
@@ -16,6 +17,7 @@ const Dashboard = () => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
+            <Navbar />
             <Header style={{ color: "white", fontSize: 20 }}>
                 Clup Management
             </Header>
