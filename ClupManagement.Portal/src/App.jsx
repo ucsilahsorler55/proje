@@ -1,9 +1,19 @@
-import "./styles/App.css";
-import "antd/dist/reset.css";
-import Dashboard from "./pages/Dashboard";
+import React, { useState } from "react";
+import LoginPage from "./pages/LoginPage";
+import SystemMessagePage from "./pages/SystemMessagePage";
 
 function App() {
-    return <Dashboard />;
+    const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+
+    return (
+        <div>
+            {loggedIn ? (
+                <SystemMessagePage />
+            ) : (
+                <LoginPage onLogin={() => setLoggedIn(true)} />
+            )}
+        </div>
+    );
 }
 
 export default App;
