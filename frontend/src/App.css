@@ -1,0 +1,32 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.placeholder-page {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 50px;
+}
+
+.placeholder-page h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.placeholder-page p {
+  color: #7f8c8d;
+  font-size: 18px;
+}

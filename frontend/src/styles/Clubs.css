@@ -1,0 +1,83 @@
+.clubs-container {
+  padding: 20px;
+}
+
+.clubs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.clubs-header h1 {
+  color: #2c3e50;
+}
+
+.clubs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.club-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.club-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.club-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.club-header h3 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.member-count {
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.club-description {
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.club-info {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+}
+
+.club-info p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #34495e;
+}
+
+.club-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.club-actions button,
+.club-actions a {
+  flex: 1;
+  text-align: center;
+}
