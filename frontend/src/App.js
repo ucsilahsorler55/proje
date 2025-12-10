@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ClubList from './pages/ClubList';
 import AdminPanel from './pages/AdminPanel';
+import CreateClubApplication from './pages/CreateClubApplication';
+import MyApplications from './pages/MyApplications';
+import Notifications from './pages/Notifications';
+import ClubAdminDashboard from './pages/ClubAdminDashboard';
 import './App.css';
 
 function App() {
@@ -20,7 +24,7 @@ function App() {
               <Route path="/" element={<Navigate to="/clubs" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              
+
               <Route
                 path="/clubs"
                 element={
@@ -29,7 +33,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              
+
               <Route
                 path="/events"
                 element={
@@ -41,7 +45,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              
+
               <Route
                 path="/profile"
                 element={
@@ -53,7 +57,43 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              
+
+              <Route
+                path="/club-manager"
+                element={
+                  <PrivateRoute roles={['club_admin']}>
+                    <ClubAdminDashboard />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/notifications"
+                element={
+                  <PrivateRoute>
+                    <Notifications />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/create-club-application"
+                element={
+                  <PrivateRoute>
+                    <CreateClubApplication />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/my-applications"
+                element={
+                  <PrivateRoute>
+                    <MyApplications />
+                  </PrivateRoute>
+                }
+              />
+
               <Route
                 path="/admin"
                 element={
@@ -62,7 +102,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              
+
               <Route path="*" element={<Navigate to="/clubs" />} />
             </Routes>
           </main>

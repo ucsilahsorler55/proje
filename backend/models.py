@@ -91,7 +91,7 @@ class ClubMembership(db.Model):
     club_id = db.Column(db.Integer, db.ForeignKey('clubs.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     role = db.Column(db.String(50), default='member')  # member, president, vice_president, treasurer
-    status = db.Column(db.String(20), default='active')  # pending, active, inactive
+    status = db.Column(db.Enum('pending', 'active', 'inactive', name='membership_status'), default='active')
     joined_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     # İlişkiler
@@ -200,5 +200,67 @@ class Announcement(db.Model):
             'title': self.title,
             'content': self.content,
             'is_global': self.is_global,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+
+
+class ClubApplication(db.Model):
+    """Yeni kulüp kurma başvurusu"""
+    __tablename__ = 'club_applications'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    applicant_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    club_name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(20), default='pending')  # pending, approved, rejected
+    rejection_reason = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    reviewed_at = db.Column(db.DateTime)
+    reviewed_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    # İlişkiler
+    applicant = db.relationship('User', foreign_keys=[applicant_id], backref='club_applications')
+    reviewer = db.relationship('User', foreign_keys=[reviewed_by])
+    founders = db.relationship('ClubApplicationFounder', back_populates='application', lazy=True, cascade='all, delete-orphan')
+    
+    def to_dict(self, include_founders=False):
+        data = {
+            'id': self.id,
+            'applicant_id': self.applicant_id,
+            'applicant_name': f"{self.applicant.first_name} {self.applicant.last_name}" if self.applicant else None,
+            'club_name': self.club_name,
+            'description': self.description,
+            'status': self.status,
+            'rejection_reason': self.rejection_reason,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'reviewed_at': self.reviewed_at.isoformat() if self.reviewed_at else None
+        }
+        if include_founders:
+            data['founders'] = [f.to_dict() for f in self.founders]
+        return data
+
+
+class ClubApplicationFounder(db.Model):
+    """Kulüp başvurusu kurucu üyeleri"""
+    __tablename__ = 'club_application_founders'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    application_id = db.Column(db.Integer, db.ForeignKey('club_applications.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # İlişkiler
+    application = db.relationship('ClubApplication', back_populates='founders')
+    user = db.relationship('User', backref='founder_invitations')
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'application_id': self.application_id,
+            'user_id': self.user_id,
+            'user_name': f"{self.user.first_name} {self.user.last_name}" if self.user else None,
+            'user_email': self.user.email if self.user else None,
+            'status': self.status,
             'created_at': self.created_at.isoformat() if self.created_at else None
         }

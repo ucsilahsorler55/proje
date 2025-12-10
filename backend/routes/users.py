@@ -1,14 +1,24 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
-from models import db, User
+from models import db, User, Notification
 
 users_bp = Blueprint('users', __name__)
+
+@users_bp.route('/notifications', methods=['GET'])
+@jwt_required()
+def get_notifications():
+    """Kullanıcının bildirimlerini listele"""
+    user_id = int(get_jwt_identity())
+    
+    notifications = Notification.query.filter_by(user_id=user_id).order_by(Notification.created_at.desc()).all()
+    
+    return jsonify([n.to_dict() for n in notifications]), 200
 
 @users_bp.route('/profile', methods=['GET'])
 @jwt_required()
 def get_profile():
     """Kullanıcı profili"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get_or_404(user_id)
     
     profile = user.to_dict()
@@ -33,7 +43,7 @@ def get_profile():
 @jwt_required()
 def update_profile():
     """Profil güncelleme"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get_or_404(user_id)
     
     data = request.get_json()

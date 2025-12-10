@@ -40,7 +40,7 @@ def register():
     
     # Token oluştur
     access_token = create_access_token(
-        identity=user.id,
+        identity=str(user.id),
         additional_claims={'role': user.role}
     )
     
@@ -69,7 +69,7 @@ def login():
     
     # Token oluştur
     access_token = create_access_token(
-        identity=user.id,
+        identity=str(user.id),
         additional_claims={'role': user.role}
     )
     

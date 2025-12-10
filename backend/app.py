@@ -20,11 +20,13 @@ def create_app():
     from routes.clubs import clubs_bp
     from routes.users import users_bp
     from routes.events import events_bp
+    from routes.club_applications import club_applications_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(clubs_bp, url_prefix='/api/clubs')
     app.register_blueprint(users_bp, url_prefix='/api/users')
     app.register_blueprint(events_bp, url_prefix='/api/events')
+    app.register_blueprint(club_applications_bp, url_prefix='/api/club-applications')
     
     # Health check
     @app.route('/api/health')

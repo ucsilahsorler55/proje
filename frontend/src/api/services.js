@@ -141,4 +141,59 @@ export const userService = {
     const response = await api.get(url);
     return response.data;
   },
+
+  getNotifications: async () => {
+    const response = await api.get('/users/notifications');
+    return response.data;
+  },
+};
+
+// Kulüp Başvuruları (Yeni Kulüp Kurma)
+export const clubApplicationService = {
+  // Yeni başvuru oluştur
+  createApplication: async (applicationData) => {
+    const response = await api.post('/club-applications', applicationData);
+    return response.data;
+  },
+
+  // Başvuruları listele
+  getApplications: async (status = 'pending') => {
+    const response = await api.get(`/club-applications?status=${status}`);
+    return response.data;
+  },
+
+  // Tek başvuru detayı
+  getApplication: async (applicationId) => {
+    const response = await api.get(`/club-applications/${applicationId}`);
+    return response.data;
+  },
+
+  // SKS onay/red
+  reviewApplication: async (applicationId, action, reason = '') => {
+    const response = await api.post(`/club-applications/${applicationId}/review`, {
+      action,
+      reason
+    });
+    return response.data;
+  },
+
+  // Kurucu davetine cevap ver
+  respondToInvitation: async (founderId, action) => {
+    const response = await api.post(`/club-applications/founders/${founderId}/respond`, {
+      action
+    });
+    return response.data;
+  },
+
+  // Gelen kurucu davetleri
+  getMyInvitations: async () => {
+    const response = await api.get('/club-applications/my-invitations');
+    return response.data;
+  },
+
+  // Kurucu üye aramak için kullanıcı ara
+  searchUsers: async (query) => {
+    const response = await api.get(`/club-applications/search-users?q=${query}`);
+    return response.data;
+  },
 };

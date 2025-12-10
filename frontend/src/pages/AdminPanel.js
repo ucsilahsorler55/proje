@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { clubService } from '../api/services';
+import { clubApplicationService } from '../api/services';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Admin.css';
 
@@ -18,8 +18,8 @@ const AdminPanel = () => {
   const loadPendingClubs = async () => {
     try {
       setLoading(true);
-      const data = await clubService.getClubs('pending');
-      setPendingClubs(data.clubs);
+      const data = await clubApplicationService.getApplications('pending');
+      setPendingClubs(data);
     } catch (err) {
       setError('Başvurular yüklenirken hata oluştu');
       console.error('Error loading pending clubs:', err);
@@ -28,31 +28,29 @@ const AdminPanel = () => {
     }
   };
 
-  const handleApprove = async (clubId) => {
-    if (!window.confirm('Bu kulübü onaylamak istediğinizden emin misiniz?')) {
-      return;
-    }
-
+  const handleApprove = async (e, clubId) => {
+    e.preventDefault();
+    // Direkt onaylama
     try {
-      await clubService.approveClub(clubId);
+      await clubApplicationService.reviewApplication(clubId, 'approve');
       alert('Kulüp başarıyla onaylandı!');
       loadPendingClubs();
     } catch (err) {
-      alert(err.response?.data?.error || 'Kulüp onaylanırken hata oluştu');
+      console.error(err);
+      alert('HATA: ' + (err.response?.data?.error || err.message));
     }
   };
 
-  const handleReject = async (clubId) => {
-    if (!window.confirm('Bu kulübü reddetmek istediğinizden emin misiniz?')) {
-      return;
-    }
-
+  const handleReject = async (e, clubId) => {
+    e.preventDefault();
+    // Direkt reddetme
     try {
-      await clubService.rejectClub(clubId);
+      await clubApplicationService.reviewApplication(clubId, 'reject');
       alert('Kulüp reddedildi');
       loadPendingClubs();
     } catch (err) {
-      alert(err.response?.data?.error || 'Kulüp reddedilirken hata oluştu');
+      console.error(err);
+      alert(err.response?.data?.error || 'Hata oluştu');
     }
   };
 
@@ -72,43 +70,47 @@ const AdminPanel = () => {
 
       <div className="admin-section">
         <h2>Bekleyen Kulüp Başvuruları ({pendingClubs.length})</h2>
-        
+
         {error && <div className="error">{error}</div>}
 
         {pendingClubs.length === 0 ? (
           <p className="no-data">Bekleyen kulüp başvurusu bulunmamaktadır.</p>
         ) : (
           <div className="applications-list">
-            {pendingClubs.map((club) => (
-              <div key={club.id} className="application-card">
+            {pendingClubs.map((app) => (
+              <div key={app.id} className="application-card">
                 <div className="application-header">
-                  <h3>{club.name}</h3>
+                  <h3>{app.club_name}</h3>
                   <span className="status-badge pending">Beklemede</span>
                 </div>
-                
-                <p className="application-description">{club.description}</p>
-                
+
+                <p className="application-description">{app.description}</p>
+
                 <div className="application-info">
                   <div className="info-row">
-                    <strong>Danışman:</strong> {club.advisor_name}
+                    <strong>Başvuran:</strong> {app.applicant_name}
                   </div>
                   <div className="info-row">
-                    <strong>Email:</strong> {club.advisor_email}
+                    <strong>Başvuru Tarihi:</strong> {new Date(app.created_at).toLocaleDateString('tr-TR')}
                   </div>
-                  <div className="info-row">
-                    <strong>Başvuru Tarihi:</strong> {new Date(club.created_at).toLocaleDateString('tr-TR')}
-                  </div>
+                  {app.founders && app.founders.length > 0 && (
+                    <div className="info-row">
+                      <strong>Kurucu Üyeler:</strong> {app.founders.map(f => f.user_name).join(', ')}
+                    </div>
+                  )}
                 </div>
 
                 <div className="application-actions">
                   <button
-                    onClick={() => handleApprove(club.id)}
+                    type="button"
+                    onClick={(e) => handleApprove(e, app.id)}
                     className="btn-approve"
                   >
                     ✓ Onayla
                   </button>
                   <button
-                    onClick={() => handleReject(club.id)}
+                    type="button"
+                    onClick={(e) => handleReject(e, app.id)}
                     className="btn-reject"
                   >
                     ✗ Reddet

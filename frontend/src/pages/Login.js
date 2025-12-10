@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -18,8 +18,12 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/clubs');
+      const data = await login(email, password);
+      if (data.user.role === 'club_admin') {
+        navigate('/club-manager');
+      } else {
+        navigate('/clubs');
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Giriş başarısız');
     } finally {
@@ -31,9 +35,9 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Giriş Yap</h2>
-        
+
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
@@ -68,8 +72,8 @@ const Login = () => {
 
         <div className="test-accounts">
           <h4>Test Hesapları:</h4>
-          <p><strong>Admin:</strong> admin@university.edu / admin123</p>
-          <p><strong>Öğrenci:</strong> student1@university.edu / admin123</p>
+          <p><strong>Admin:</strong> admin@university.edu / 123456</p>
+          <p><strong>Öğrenci:</strong> student1@university.edu / 123456</p>
         </div>
       </div>
     </div>

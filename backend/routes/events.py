@@ -40,7 +40,7 @@ def get_event(event_id):
 @jwt_required()
 def create_event():
     """Yeni etkinlik oluşturma (Kulüp Yöneticisi)"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     required_fields = ['club_id', 'title', 'description', 'event_date', 'location']
@@ -86,7 +86,7 @@ def create_event():
 @jwt_required()
 def register_event(event_id):
     """Etkinliğe kayıt olma"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     event = Event.query.get_or_404(event_id)
     

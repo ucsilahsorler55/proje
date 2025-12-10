@@ -18,17 +18,24 @@ const Navbar = () => {
         <Link to="/" className="navbar-logo">
           🎓 Kulüp Sistemi
         </Link>
-        
+
         <ul className="navbar-menu">
           {isAuthenticated ? (
             <>
               <li><Link to="/clubs">Kulüpler</Link></li>
-              <li><Link to="/events">Etkinlikler</Link></li>
-              
+
+              {['student', 'club_admin'].includes(user?.role) && (
+                <>
+                  <li><Link to="/events">Etkinlikler</Link></li>
+                  <li><Link to="/my-applications">Başvurularım</Link></li>
+                </>
+              )}
+
               {user?.role === 'sks_admin' && (
                 <li><Link to="/admin">Admin Panel</Link></li>
               )}
-              
+
+              <li><Link to="/notifications">Bildirimler</Link></li>
               <li><Link to="/profile">Profil</Link></li>
               <li>
                 <span className="user-info">

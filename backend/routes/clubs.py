@@ -45,7 +45,7 @@ def get_club(club_id):
 @jwt_required()
 def create_club():
     """Yeni kulüp kurma (Öğrenci)"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     
     if user.role != 'student':
@@ -94,7 +94,7 @@ def create_club():
 @jwt_required()
 def join_club(club_id):
     """Kulübe üye olma"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     club = Club.query.get_or_404(club_id)
     
@@ -134,7 +134,7 @@ def join_club(club_id):
 @jwt_required()
 def leave_club(club_id):
     """Kulüpten ayrılma"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     membership = ClubMembership.query.filter_by(
         club_id=club_id,
