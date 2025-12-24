@@ -25,12 +25,16 @@ def get_profile():
     
     # Üye olduğu kulüpler
     clubs = []
+    # Üye olduğu kulüpler
+    clubs = []
     for membership in user.memberships:
-        if membership.status == 'active':
+        # Tüm üyelikleri (aktif, beklemede) gönder
+        if membership.status in ['active', 'pending']:
             clubs.append({
                 'club_id': membership.club.id,
                 'club_name': membership.club.name,
                 'role': membership.role,
+                'status': membership.status,
                 'joined_at': membership.joined_at.isoformat()
             })
     

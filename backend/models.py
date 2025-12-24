@@ -80,7 +80,7 @@ class Club(db.Model):
             'created_at': self.created_at.isoformat() if self.created_at else None
         }
         if include_members:
-            data['member_count'] = len(self.memberships)
+            data['member_count'] = sum(1 for m in self.memberships if m.status == 'active')
         return data
 
 
