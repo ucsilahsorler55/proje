@@ -48,7 +48,7 @@ export const clubService = {
 
   // Kulüp detayı
   getClub: async (clubId) => {
-    const response = await api.get(`/clubs/${clubId}/`);
+    const response = await api.get(`/clubs/${clubId}`);
     return response.data;
   },
 
@@ -60,25 +60,31 @@ export const clubService = {
 
   // Kulübe katıl
   joinClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/join/`);
+    const response = await api.post(`/clubs/${clubId}/join`);
     return response.data;
   },
 
   // Kulüpten ayrıl
   leaveClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/leave/`);
+    const response = await api.post(`/clubs/${clubId}/leave`);
     return response.data;
   },
 
   // Kulüp onayla (Admin)
   approveClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/approve/`);
+    const response = await api.post(`/clubs/${clubId}/approve`);
     return response.data;
   },
 
   // Kulüp reddet (Admin)
   rejectClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/reject/`);
+    const response = await api.post(`/clubs/${clubId}/reject`);
+    return response.data;
+  },
+
+  // Kulüp Duyurusu Yap
+  makeAnnouncement: async (announcementData) => {
+    const response = await api.post('/clubs/my-club/announce', announcementData);
     return response.data;
   },
 };
@@ -125,19 +131,19 @@ export const eventService = {
 export const userService = {
   // Profil bilgisi
   getProfile: async () => {
-    const response = await api.get('/users/profile/');
+    const response = await api.get('/users/profile');
     return response.data;
   },
 
   // Profil güncelle
   updateProfile: async (userData) => {
-    const response = await api.put('/users/profile/', userData);
+    const response = await api.put('/users/profile', userData);
     return response.data;
   },
 
   // Tüm kullanıcılar (Admin)
   getUsers: async (role = null) => {
-    const url = role ? `/users/?role=${role}` : '/users/';
+    const url = role ? `/users?role=${role}` : '/users';
     const response = await api.get(url);
     return response.data;
   },

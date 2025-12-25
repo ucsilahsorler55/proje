@@ -22,21 +22,40 @@ const Navbar = () => {
         <ul className="navbar-menu">
           {isAuthenticated ? (
             <>
-              <li><Link to="/clubs">Kulüpler</Link></li>
-
-              {['student', 'club_admin'].includes(user?.role) && (
+              {/* Student specific links */}
+              {user?.role === 'student' && (
                 <>
+                  <li><Link to="/clubs">Kulüpler</Link></li>
                   <li><Link to="/events">Etkinlikler</Link></li>
                   <li><Link to="/my-applications">Başvurularım</Link></li>
+                  <li><Link to="/notifications">Bildirimler</Link></li>
                 </>
               )}
 
-              {user?.role === 'sks_admin' && (
-                <li><Link to="/admin">Admin Panel</Link></li>
+              {/* Club Admin specific links */}
+              {user?.role === 'club_admin' && (
+                <>
+                  <li><Link to="/create-event">Etkinlik Başvurusu</Link></li>
+                  <li><Link to="/announcements">Duyuru Yap</Link></li>
+                  <li><Link to="/membership-applications">Üyelik Başvuruları</Link></li>
+                </>
               )}
 
-              <li><Link to="/notifications">Bildirimler</Link></li>
-              <li><Link to="/profile">Profil</Link></li>
+              {/* SKS Admin specific links */}
+              {user?.role === 'sks_admin' && (
+                <>
+                  <li><Link to="/admin">Admin Panel</Link></li>
+                  <li><Link to="/clubs">Kulüp Bilgileri</Link></li>
+                </>
+              )}
+
+              {/* Profil linki: Kulüp yöneticisi için /club-manager, diğerleri için /profile */}
+              <li>
+                <Link to={user?.role === 'club_admin' ? "/club-manager" : "/profile"}>
+                  Profil
+                </Link>
+              </li>
+
               <li>
                 <span className="user-info">
                   {user?.first_name} {user?.last_name} ({user?.role})

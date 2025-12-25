@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { clubApplicationService } from '../api/services';
+import { clubApplicationService, userService } from '../api/services';
 import '../styles/ClubApplication.css';
 
 const MyApplications = () => {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState([]); // Club Creation Applications
   const [invitations, setInvitations] = useState([]);
+  const [memberships, setMemberships] = useState([]); // Club Memberships (Active/Pending)
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('applications');
+  const [activeTab, setActiveTab] = useState('memberships');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -15,28 +16,51 @@ const MyApplications = () => {
   }, []);
 
   const loadData = async () => {
+    setLoading(true);
+    let errorMsg = '';
+
     try {
-      setLoading(true);
-      const [apps, invs] = await Promise.all([
-        clubApplicationService.getApplications('all'),
-        clubApplicationService.getMyInvitations()
-      ]);
+      const profile = await userService.getProfile().catch(e => {
+        console.error('Profile fetch error:', e);
+        errorMsg += `Profil yüklenemedi: ${e.response?.data?.error || e.message}. `;
+        return { clubs: [] };
+      });
+      setMemberships(profile.clubs || []);
+    } catch (e) { console.error(e); }
+
+    try {
+      const apps = await clubApplicationService.getApplications('all').catch(e => {
+        console.error('Applications fetch error:', e);
+        errorMsg += `Başvurular yüklenemedi: ${e.response?.data?.error || e.message}. `;
+        return [];
+      });
       setApplications(apps);
+    } catch (e) { console.error(e); }
+
+    try {
+      const invs = await clubApplicationService.getMyInvitations().catch(e => {
+        console.error('Invitations fetch error:', e);
+        // Dont show error for invitations if it's just empty or 404
+        return [];
+      });
       setInvitations(invs);
-    } catch (err) {
-      setError('Veriler yüklenirken bir hata oluştu');
-      console.error(err);
-    } finally {
-      setLoading(false);
+    } catch (e) { console.error(e); }
+
+    if (errorMsg) {
+      setError(errorMsg);
+    } else {
+      setError('');
     }
+
+    setLoading(false);
   };
 
   const handleInvitationResponse = async (founderId, action) => {
     try {
       await clubApplicationService.respondToInvitation(founderId, action);
       // Listeyi güncelle
-      setInvitations(invitations.map(inv => 
-        inv.id === founderId 
+      setInvitations(invitations.map(inv =>
+        inv.id === founderId
           ? { ...inv, status: action === 'accept' ? 'accepted' : 'rejected' }
           : inv
       ));
@@ -49,6 +73,7 @@ const MyApplications = () => {
     const badges = {
       pending: { text: 'Beklemede', class: 'badge-warning' },
       approved: { text: 'Onaylandı', class: 'badge-success' },
+      active: { text: 'Aktif', class: 'badge-success' },
       rejected: { text: 'Reddedildi', class: 'badge-danger' },
       accepted: { text: 'Kabul Edildi', class: 'badge-success' }
     };
@@ -63,22 +88,28 @@ const MyApplications = () => {
   return (
     <div className="my-applications-container">
       <div className="page-header">
-        <h2>Kulüp Başvurularım</h2>
+        <h2>Başvurularım ve Üyeliklerim</h2>
         <Link to="/create-club-application" className="btn btn-primary">
-          + Yeni Başvuru
+          + Yeni Kulüp Kur
         </Link>
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
 
       <div className="tabs">
-        <button 
+        <button
+          className={`tab ${activeTab === 'memberships' ? 'active' : ''}`}
+          onClick={() => setActiveTab('memberships')}
+        >
+          Kulüp Üyelikleri ({memberships.length})
+        </button>
+        <button
           className={`tab ${activeTab === 'applications' ? 'active' : ''}`}
           onClick={() => setActiveTab('applications')}
         >
-          Başvurularım ({applications.length})
+          Kulüp Kurma Başvuruları ({applications.length})
         </button>
-        <button 
+        <button
           className={`tab ${activeTab === 'invitations' ? 'active' : ''}`}
           onClick={() => setActiveTab('invitations')}
         >
@@ -86,14 +117,37 @@ const MyApplications = () => {
         </button>
       </div>
 
+      {activeTab === 'memberships' && (
+        <div className="applications-list">
+          {memberships.length === 0 ? (
+            <div className="empty-state">
+              <p>Henüz bir kulüp üyeliğiniz veya başvurunuz bulunmamaktadır.</p>
+              <Link to="/clubs" className="btn btn-primary">
+                Kulüplere Göz At
+              </Link>
+            </div>
+          ) : (
+            memberships.map((member, index) => (
+              <div key={index} className="application-item">
+                <div className="application-header">
+                  <h3>{member.club_name}</h3>
+                  {getStatusBadge(member.status)}
+                </div>
+                <div className="application-meta">
+                  <span><strong>Rol:</strong> {member.role === 'member' ? 'Üye' : member.role}</span>
+                  <span><strong>Katılım Tarihi:</strong> {new Date(member.joined_at).toLocaleDateString('tr-TR')}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
       {activeTab === 'applications' && (
         <div className="applications-list">
           {applications.length === 0 ? (
             <div className="empty-state">
-              <p>Henüz bir başvurunuz yok.</p>
-              <Link to="/create-club-application" className="btn btn-primary">
-                İlk Başvurunuzu Oluşturun
-              </Link>
+              <p>Henüz bir kulüp kurma başvurunuz yok.</p>
             </div>
           ) : (
             applications.map(app => (
@@ -105,9 +159,6 @@ const MyApplications = () => {
                 <p className="application-description">{app.description}</p>
                 <div className="application-meta">
                   <span>Başvuru Tarihi: {new Date(app.created_at).toLocaleDateString('tr-TR')}</span>
-                  {app.founders && app.founders.length > 0 && (
-                    <span>Kurucu Üyeler: {app.founders.length} kişi</span>
-                  )}
                 </div>
                 {app.status === 'rejected' && app.rejection_reason && (
                   <div className="rejection-reason">
@@ -137,16 +188,16 @@ const MyApplications = () => {
                 <p className="invitation-from">
                   Davet Eden: {inv.application?.applicant_name}
                 </p>
-                
+
                 {inv.status === 'pending' && (
                   <div className="invitation-actions">
-                    <button 
+                    <button
                       className="btn btn-success"
                       onClick={() => handleInvitationResponse(inv.id, 'accept')}
                     >
                       Kabul Et
                     </button>
-                    <button 
+                    <button
                       className="btn btn-danger"
                       onClick={() => handleInvitationResponse(inv.id, 'reject')}
                     >

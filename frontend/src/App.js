@@ -11,6 +11,10 @@ import CreateClubApplication from './pages/CreateClubApplication';
 import MyApplications from './pages/MyApplications';
 import Notifications from './pages/Notifications';
 import ClubAdminDashboard from './pages/ClubAdminDashboard';
+import CreateEvent from './pages/CreateEvent';
+import ClubAnnouncements from './pages/ClubAnnouncements';
+import MembershipApplications from './pages/MembershipApplications';
+import Profile from './pages/Profile';
 import './App.css';
 
 function App() {
@@ -50,10 +54,7 @@ function App() {
                 path="/profile"
                 element={
                   <PrivateRoute>
-                    <div className="placeholder-page">
-                      <h2>Profil</h2>
-                      <p>Profil sayfası yakında eklenecek...</p>
-                    </div>
+                    <Profile />
                   </PrivateRoute>
                 }
               />
@@ -63,6 +64,33 @@ function App() {
                 element={
                   <PrivateRoute roles={['club_admin']}>
                     <ClubAdminDashboard />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/create-event"
+                element={
+                  <PrivateRoute roles={['club_admin']}>
+                    <CreateEvent />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/announcements"
+                element={
+                  <PrivateRoute roles={['club_admin']}>
+                    <ClubAnnouncements />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path="/membership-applications"
+                element={
+                  <PrivateRoute roles={['club_admin']}>
+                    <MembershipApplications />
                   </PrivateRoute>
                 }
               />

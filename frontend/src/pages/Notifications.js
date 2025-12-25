@@ -34,7 +34,11 @@ const Notifications = () => {
                         <div key={n.id} className="card mb-3">
                             <div className="card-body">
                                 <h5 className="card-title">{n.title}</h5>
-                                <p className="card-text" style={{ whiteSpace: 'pre-wrap' }}>{n.message}</p>
+                                <div className="card-text" style={{ whiteSpace: 'pre-wrap' }}>
+                                    {n.message.split('\n').map((line, i) => (
+                                        <div key={i} style={{ minHeight: line ? 'auto' : '1em' }}>{line}</div>
+                                    ))}
+                                </div>
                                 <small className="text-muted">
                                     {new Date(n.created_at).toLocaleString('tr-TR')}
                                 </small>
