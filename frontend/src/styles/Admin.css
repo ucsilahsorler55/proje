@@ -1,130 +1,381 @@
+/* ============================================
+   👑 Modern Admin Panel Styles - Light Theme
+   ============================================ */
+
 .admin-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+    padding: 20px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease;
 }
 
 .admin-container h1 {
-  color: #2c3e50;
-  margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
+.admin-container h1::before {
+    content: "👑";
+    font-size: 2rem;
+}
+
+/* Admin Section */
 .admin-section {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+    background: white;
+    padding: 35px;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 35px;
+    animation: fadeInUp 0.6s ease;
 }
 
 .admin-section h2 {
-  color: #34495e;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 10px;
+    color: #1e293b;
+    margin-bottom: 25px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
+/* Admin Tabs */
+.admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.admin-tab {
+    padding: 14px 28px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 30px;
+    color: #64748b;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-tab:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    transform: translateY(-2px);
+}
+
+.admin-tab.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 5px 20px rgba(79, 70, 229, 0.3);
+}
+
+.tab-badge {
+    background: rgba(100, 116, 139, 0.2);
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.admin-tab.active .tab-badge {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* No Data State */
 .no-data {
-  color: #7f8c8d;
-  text-align: center;
-  padding: 40px;
-  font-size: 16px;
+    text-align: center;
+    padding: 60px 40px;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px dashed #cbd5e1;
 }
 
+.no-data::before {
+    content: "📭";
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+/* Applications List */
 .applications-list {
-  display: grid;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
+/* Application Card */
 .application-card {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
+    background: #f8fafc;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
+.application-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #4f46e5, #7c3aed);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.application-card:hover {
+    background: #f1f5f9;
+    border-color: rgba(79, 70, 229, 0.2);
+    transform: translateX(5px);
+}
+
+.application-card:hover::before {
+    opacity: 1;
+}
+
+/* Application Header */
 .application-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .application-header h3 {
-  color: #2c3e50;
-  margin: 0;
+    color: #1e293b;
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
+/* Status Badge */
 .status-badge {
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .status-badge.pending {
-  background-color: #fff3cd;
-  color: #856404;
+    background: #fef3c7;
+    color: #d97706;
+    border: 1px solid #fcd34d;
 }
 
+.status-badge.approved {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+}
+
+.status-badge.rejected {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+/* Application Description */
 .application-description {
-  color: #495057;
-  line-height: 1.6;
-  margin-bottom: 15px;
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
 }
 
+/* Application Info */
 .application-info {
-  background: white;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 15px;
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
 }
 
 .info-row {
-  margin: 8px 0;
-  color: #495057;
+    margin: 12px 0;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.info-row:first-child {
+    margin-top: 0;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
 }
 
 .info-row strong {
-  color: #2c3e50;
-  margin-right: 10px;
+    color: #94a3b8;
+    min-width: 130px;
+    font-weight: 500;
 }
 
+/* Application Actions */
 .application-actions {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .btn-approve {
-  flex: 1;
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color 0.3s;
+    flex: 1;
+    min-width: 140px;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-approve::before {
+    content: "✓";
 }
 
 .btn-approve:hover {
-  background-color: #218838;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
 }
 
 .btn-reject {
-  flex: 1;
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color 0.3s;
+    flex: 1;
+    min-width: 140px;
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-reject::before {
+    content: "✕";
 }
 
 .btn-reject:hover {
-  background-color: #c82333;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.35);
+}
+
+/* Modal Styles */
+.admin-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.admin-modal-content {
+    background: white;
+    padding: 35px;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: scaleIn 0.3s ease;
+}
+
+.admin-modal-content h3 {
+    color: #1e293b;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.admin-modal-content textarea {
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-container h1 {
+        font-size: 1.8rem;
+    }
+
+    .admin-section {
+        padding: 25px 20px;
+    }
+
+    .admin-tabs {
+        flex-direction: column;
+    }
+
+    .admin-tab {
+        justify-content: center;
+    }
+
+    .application-card {
+        padding: 22px;
+    }
+
+    .application-actions {
+        flex-direction: column;
+    }
+
+    .btn-approve,
+    .btn-reject {
+        width: 100%;
+    }
 }

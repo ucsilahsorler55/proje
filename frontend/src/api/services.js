@@ -1,205 +1,257 @@
-import api from './axios';
+import api from "./axios";
 
 export const authService = {
-  // Kayıt
-  register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
-    if (response.data.access_token) {
-      localStorage.setItem('token', response.data.access_token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    return response.data;
-  },
+    // Kayıt
+    register: async (userData) => {
+        const response = await api.post("/auth/register", userData);
+        if (response.data.access_token) {
+            localStorage.setItem("token", response.data.access_token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+        }
+        return response.data;
+    },
 
-  // Giriş
-  login: async (email, password) => {
-    const response = await api.post('/auth/login', { email, password });
-    if (response.data.access_token) {
-      localStorage.setItem('token', response.data.access_token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    return response.data;
-  },
+    // Giriş
+    login: async (email, password) => {
+        const response = await api.post("/auth/login", { email, password });
+        if (response.data.access_token) {
+            localStorage.setItem("token", response.data.access_token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+        }
+        return response.data;
+    },
 
-  // Çıkış
-  logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  },
+    // Çıkış
+    logout: () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    },
 
-  // Mevcut kullanıcı
-  getCurrentUser: () => {
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
-  },
+    // Mevcut kullanıcı
+    getCurrentUser: () => {
+        const userStr = localStorage.getItem("user");
+        return userStr ? JSON.parse(userStr) : null;
+    },
 
-  // Token kontrolü
-  isAuthenticated: () => {
-    return !!localStorage.getItem('token');
-  },
+    // Token kontrolü
+    isAuthenticated: () => {
+        return !!localStorage.getItem("token");
+    },
 };
 
 export const clubService = {
-  // Tüm kulüpler
-  getClubs: async (status = 'active') => {
-    const response = await api.get(`/clubs/?status=${status}`);
-    return response.data;
-  },
+    // Tüm kulüpler
+    getClubs: async (status = "active") => {
+        const response = await api.get(`/clubs/?status=${status}`);
+        return response.data;
+    },
 
-  // Kulüp detayı
-  getClub: async (clubId) => {
-    const response = await api.get(`/clubs/${clubId}`);
-    return response.data;
-  },
+    // Kulüp detayı
+    getClub: async (clubId) => {
+        const response = await api.get(`/clubs/${clubId}`);
+        return response.data;
+    },
 
-  // Yeni kulüp
-  createClub: async (clubData) => {
-    const response = await api.post('/clubs/', clubData);
-    return response.data;
-  },
+    // Yeni kulüp
+    createClub: async (clubData) => {
+        const response = await api.post("/clubs/", clubData);
+        return response.data;
+    },
 
-  // Kulübe katıl
-  joinClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/join`);
-    return response.data;
-  },
+    // Kulübe katıl
+    joinClub: async (clubId) => {
+        const response = await api.post(`/clubs/${clubId}/join`);
+        return response.data;
+    },
 
-  // Kulüpten ayrıl
-  leaveClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/leave`);
-    return response.data;
-  },
+    // Kulüpten ayrıl
+    leaveClub: async (clubId) => {
+        const response = await api.post(`/clubs/${clubId}/leave`);
+        return response.data;
+    },
 
-  // Kulüp onayla (Admin)
-  approveClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/approve`);
-    return response.data;
-  },
+    // Kulüp onayla (Admin)
+    approveClub: async (clubId) => {
+        const response = await api.post(`/clubs/${clubId}/approve`);
+        return response.data;
+    },
 
-  // Kulüp reddet (Admin)
-  rejectClub: async (clubId) => {
-    const response = await api.post(`/clubs/${clubId}/reject`);
-    return response.data;
-  },
+    // Kulüp reddet (Admin)
+    rejectClub: async (clubId) => {
+        const response = await api.post(`/clubs/${clubId}/reject`);
+        return response.data;
+    },
 
-  // Kulüp Duyurusu Yap
-  makeAnnouncement: async (announcementData) => {
-    const response = await api.post('/clubs/my-club/announce', announcementData);
-    return response.data;
-  },
+    // Kulüp Duyurusu Yap
+    makeAnnouncement: async (announcementData) => {
+        const response = await api.post(
+            "/clubs/my-club/announce",
+            announcementData
+        );
+        return response.data;
+    },
 };
 
 export const eventService = {
-  // Tüm etkinlikler
-  getEvents: async (clubId = null) => {
-    const url = clubId ? `/events/?club_id=${clubId}` : '/events/';
-    const response = await api.get(url);
-    return response.data;
-  },
+    // Tüm etkinlikler
+    getEvents: async (clubId = null) => {
+        const url = clubId ? `/events/?club_id=${clubId}` : "/events/";
+        const response = await api.get(url);
+        return response.data;
+    },
 
-  // Etkinlik detayı
-  getEvent: async (eventId) => {
-    const response = await api.get(`/events/${eventId}/`);
-    return response.data;
-  },
+    // Etkinlik detayı
+    getEvent: async (eventId) => {
+        const response = await api.get(`/events/${eventId}`);
+        return response.data;
+    },
 
-  // Yeni etkinlik
-  createEvent: async (eventData) => {
-    const response = await api.post('/events/', eventData);
-    return response.data;
-  },
+    // Yeni etkinlik
+    createEvent: async (eventData) => {
+        const response = await api.post("/events/", eventData);
+        return response.data;
+    },
 
-  // Etkinliğe kayıt
-  registerEvent: async (eventId) => {
-    const response = await api.post(`/events/${eventId}/register/`);
-    return response.data;
-  },
+    // Etkinliğe kayıt
+    registerEvent: async (eventId) => {
+        const response = await api.post(`/events/${eventId}/register`);
+        return response.data;
+    },
 
-  // Etkinlik onayla (Admin)
-  approveEvent: async (eventId) => {
-    const response = await api.post(`/events/${eventId}/approve/`);
-    return response.data;
-  },
+    // Etkinlik kaydını iptal et
+    cancelRegistration: async (eventId) => {
+        const response = await api.delete(`/events/${eventId}/register`);
+        return response.data;
+    },
 
-  // Etkinlik reddet (Admin)
-  rejectEvent: async (eventId) => {
-    const response = await api.post(`/events/${eventId}/reject/`);
-    return response.data;
-  },
+    // Kayıtlı olduğum etkinlikler
+    getMyEvents: async () => {
+        const response = await api.get("/events/my-events");
+        return response.data;
+    },
+
+    // Etkinlik katılımcıları (Kulüp Yöneticisi)
+    getParticipants: async (eventId) => {
+        const response = await api.get(`/events/${eventId}/participants`);
+        return response.data;
+    },
+
+    // Etkinlik durumu güncelle (SKS)
+    updateStatus: async (eventId, status) => {
+        const response = await api.put(`/events/${eventId}/status`, { status });
+        return response.data;
+    },
+
+    // Öğrenci davet et (Kulüp Yöneticisi)
+    inviteToEvent: async (eventId, userIds) => {
+        const response = await api.post(`/events/${eventId}/invite`, {
+            user_ids: userIds,
+        });
+        return response.data;
+    },
+
+    // Etkinlik davetlerimi getir
+    getMyEventInvitations: async () => {
+        const response = await api.get("/events/my-invitations");
+        return response.data;
+    },
+
+    // Etkinlik davetine cevap ver
+    respondToEventInvitation: async (invitationId, action) => {
+        const response = await api.post(
+            `/events/invitations/${invitationId}/respond`,
+            { action }
+        );
+        return response.data;
+    },
+
+    // Davet için öğrenci ara
+    searchUsersForInvite: async (query) => {
+        const response = await api.get(`/events/search-users?q=${query}`);
+        return response.data;
+    },
 };
 
 export const userService = {
-  // Profil bilgisi
-  getProfile: async () => {
-    const response = await api.get('/users/profile');
-    return response.data;
-  },
+    // Profil bilgisi
+    getProfile: async () => {
+        const response = await api.get("/users/profile");
+        return response.data;
+    },
 
-  // Profil güncelle
-  updateProfile: async (userData) => {
-    const response = await api.put('/users/profile', userData);
-    return response.data;
-  },
+    // Profil güncelle
+    updateProfile: async (userData) => {
+        const response = await api.put("/users/profile", userData);
+        return response.data;
+    },
 
-  // Tüm kullanıcılar (Admin)
-  getUsers: async (role = null) => {
-    const url = role ? `/users?role=${role}` : '/users';
-    const response = await api.get(url);
-    return response.data;
-  },
+    // Tüm kullanıcılar (Admin)
+    getUsers: async (role = null) => {
+        const url = role ? `/users?role=${role}` : "/users";
+        const response = await api.get(url);
+        return response.data;
+    },
 
-  getNotifications: async () => {
-    const response = await api.get('/users/notifications');
-    return response.data;
-  },
+    getNotifications: async () => {
+        const response = await api.get("/users/notifications");
+        return response.data;
+    },
 };
 
 // Kulüp Başvuruları (Yeni Kulüp Kurma)
 export const clubApplicationService = {
-  // Yeni başvuru oluştur
-  createApplication: async (applicationData) => {
-    const response = await api.post('/club-applications', applicationData);
-    return response.data;
-  },
+    // Yeni başvuru oluştur
+    createApplication: async (applicationData) => {
+        const response = await api.post("/club-applications", applicationData);
+        return response.data;
+    },
 
-  // Başvuruları listele
-  getApplications: async (status = 'pending') => {
-    const response = await api.get(`/club-applications?status=${status}`);
-    return response.data;
-  },
+    // Başvuruları listele
+    getApplications: async (status = "pending") => {
+        const response = await api.get(`/club-applications?status=${status}`);
+        return response.data;
+    },
 
-  // Tek başvuru detayı
-  getApplication: async (applicationId) => {
-    const response = await api.get(`/club-applications/${applicationId}`);
-    return response.data;
-  },
+    // Tek başvuru detayı
+    getApplication: async (applicationId) => {
+        const response = await api.get(`/club-applications/${applicationId}`);
+        return response.data;
+    },
 
-  // SKS onay/red
-  reviewApplication: async (applicationId, action, reason = '') => {
-    const response = await api.post(`/club-applications/${applicationId}/review`, {
-      action,
-      reason
-    });
-    return response.data;
-  },
+    // SKS onay/red
+    reviewApplication: async (applicationId, action, reason = "") => {
+        const response = await api.post(
+            `/club-applications/${applicationId}/review`,
+            {
+                action,
+                reason,
+            }
+        );
+        return response.data;
+    },
 
-  // Kurucu davetine cevap ver
-  respondToInvitation: async (founderId, action) => {
-    const response = await api.post(`/club-applications/founders/${founderId}/respond`, {
-      action
-    });
-    return response.data;
-  },
+    // Kurucu davetine cevap ver
+    respondToInvitation: async (founderId, action) => {
+        const response = await api.post(
+            `/club-applications/founders/${founderId}/respond`,
+            {
+                action,
+            }
+        );
+        return response.data;
+    },
 
-  // Gelen kurucu davetleri
-  getMyInvitations: async () => {
-    const response = await api.get('/club-applications/my-invitations');
-    return response.data;
-  },
+    // Gelen kurucu davetleri
+    getMyInvitations: async () => {
+        const response = await api.get("/club-applications/my-invitations");
+        return response.data;
+    },
 
-  // Kurucu üye aramak için kullanıcı ara
-  searchUsers: async (query) => {
-    const response = await api.get(`/club-applications/search-users?q=${query}`);
-    return response.data;
-  },
+    // Kurucu üye aramak için kullanıcı ara
+    searchUsers: async (query) => {
+        const response = await api.get(
+            `/club-applications/search-users?q=${query}`
+        );
+        return response.data;
+    },
 };
