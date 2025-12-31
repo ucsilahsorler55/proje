@@ -1,6 +1,3 @@
-/* ============================================
-   📋 Club Application & My Applications Styles - Light Theme
-   ============================================ */
 
 /* Club Application Container */
 .club-application-container {
@@ -164,9 +161,6 @@
     border-top: 1px solid #e2e8f0;
 }
 
-/* ============================================
-   📄 My Applications Page - Light Theme
-   ============================================ */
 
 .my-applications-container {
     max-width: 1000px;
@@ -379,9 +373,6 @@
     font-size: 1.1rem;
 }
 
-/* ============================================
-   🎪 Create Event Page - Light Theme
-   ============================================ */
 
 .create-event-container {
     max-width: 700px;
@@ -445,9 +436,6 @@
     line-height: 1;
 }
 
-/* ============================================
-   🔔 Notifications Page - Light Theme
-   ============================================ */
 
 .notifications-container {
     max-width: 800px;
@@ -509,9 +497,6 @@
     font-size: 0.8rem;
 }
 
-/* ============================================
-   👤 Profile Page - Light Theme
-   ============================================ */
 
 .profile-container {
     max-width: 700px;
@@ -582,9 +567,6 @@
     letter-spacing: 0.5px;
 }
 
-/* ============================================
-   📱 Responsive
-   ============================================ */
 
 @media (max-width: 768px) {
     .application-card,
@@ -631,9 +613,6 @@
     }
 }
 
-/* ============================================
-   🎨 Popup Modal - Light Theme
-   ============================================ */
 
 .popup-overlay {
     position: fixed;

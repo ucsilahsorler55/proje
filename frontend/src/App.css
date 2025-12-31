@@ -1,6 +1,3 @@
-/* ============================================
-   🏠 App Layout
-   ============================================ */
 
 .App {
     min-height: 100vh;
@@ -18,9 +15,6 @@
     animation: fadeIn 0.5s ease;
 }
 
-/* ============================================
-   📄 Page Headers
-   ============================================ */
 .page-title {
     font-size: 2.5rem;
     font-weight: 800;
@@ -37,9 +31,6 @@
     margin-bottom: 2rem;
 }
 
-/* ============================================
-   📦 Card Layouts
-   ============================================ */
 .placeholder-page {
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
@@ -65,9 +56,6 @@
     font-size: 1.1rem;
 }
 
-/* ============================================
-   🎴 Modern Card Grid
-   ============================================ */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -108,9 +96,6 @@
     opacity: 1;
 }
 
-/* ============================================
-   📊 Stats Cards
-   ============================================ */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -154,9 +139,6 @@
     margin-top: 5px;
 }
 
-/* ============================================
-   🔲 Section Containers
-   ============================================ */
 .section-container {
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
@@ -188,9 +170,6 @@
     font-size: 1.8rem;
 }
 
-/* ============================================
-   📱 Responsive Design
-   ============================================ */
 @media (max-width: 768px) {
     .main-content {
         padding: 20px 15px;
